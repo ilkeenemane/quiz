@@ -1,0 +1,86 @@
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        string[] questions = new string[]
+        {
+            "Azerbaycanın paytaxtı haradır?",
+            "Dunyanin en boyuk futbol klubu hansidir?",
+            "Sumqayitin ehalisi texminen ne qederdir?",
+
+        };
+
+        string[][] choices = new string[][]
+        {
+            new string[] { "a) Bakı", "b) Gəncə", "c) Naxçıvan" },
+            new string[] { "a) Barcelona", "b) Real Madrid", "c) Man United" },
+            new string[] { "a) 300000", "b) 100000", "c) 200000" },
+        };
+
+        string[] correctAnswers = new string[]
+        {
+            "a",
+            "b",
+            "a",
+
+        };
+
+        Random rand = new Random();
+        int totalScore = 0;
+
+        for (int i = 0; i < questions.Length; i++)
+        {
+            Console.WriteLine($"Sual {i + 1}: {questions[i]}");
+
+            int[] shuffledIndexes = ShuffleArray(choices[i].Length);
+
+            for (int j = 0; j < shuffledIndexes.Length; j++)
+            {
+                Console.WriteLine(choices[i][shuffledIndexes[j]]);
+            }
+
+            Console.Write("Cavabınızı seçin (a/b/c): ");
+            string userAnswer = Console.ReadLine();
+
+            if (userAnswer == correctAnswers[i])
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Düzgün cavab!");
+                totalScore += 10;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Səhv cavab.");
+            }
+
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+
+        Console.WriteLine($"Imtahan bitmişdir. Topladığınız xal: {Math.Max(totalScore, 0)}");
+    }
+
+    static int[] ShuffleArray(int length)
+    {
+        int[] indexes = new int[length];
+        for (int i = 0; i < length; i++)
+        {
+            indexes[i] = i;
+        }
+
+        Random rand = new Random();
+
+        for (int i = 0; i < length; i++)
+        {
+            int randomIndex = rand.Next(length);
+            int temp = indexes[i];
+            indexes[i] = indexes[randomIndex];
+            indexes[randomIndex] = temp;
+        }
+
+        return indexes;
+    }
+}
